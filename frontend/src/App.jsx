@@ -30,7 +30,7 @@ function App() {
         // pc.current.ontrack = (event) => {
         //   console.log("Received remote track:", event.streams[0]);
         // };
-    socket.current = io("http://localhost:3000");
+    socket.current = io("https://webrtc-56e6.onrender.com");
     socket.current.on("connect",()=>{
       console.log("Connected to signaling server");
     });
