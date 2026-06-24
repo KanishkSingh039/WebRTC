@@ -13,11 +13,32 @@ function App() {
   useEffect(() => {
     console.log("Setting up peer connection and socket");
     pc.current = new RTCPeerConnection({
-        iceServers:[
-          {
-            urls: "stun:stun.l.google.com:19302",
-          },
-        ],}
+        iceServers: [
+      {
+        urls: "stun:stun.relay.metered.ca:80",
+      },
+      {
+        urls: "turn:global.relay.metered.ca:80",
+        username: "e99870728f0ca2813222e012",
+        credential: "8tssdcmlX3N3S1VZ",
+      },
+      {
+        urls: "turn:global.relay.metered.ca:80?transport=tcp",
+        username: "e99870728f0ca2813222e012",
+        credential: "8tssdcmlX3N3S1VZ",
+      },
+      {
+        urls: "turn:global.relay.metered.ca:443",
+        username: "e99870728f0ca2813222e012",
+        credential: "8tssdcmlX3N3S1VZ",
+      },
+      {
+        urls: "turns:global.relay.metered.ca:443?transport=tcp",
+        username: "e99870728f0ca2813222e012",
+        credential: "8tssdcmlX3N3S1VZ",
+      },
+  ],
+      }
     );
         pc.current.onconnectionstatechange = () => {
           console.log("Connection:", pc.current.connectionState);
@@ -69,6 +90,7 @@ function App() {
         console.log(event);
         console.log("Received remote track :", event.streams[0]);
         remoteVideoRef.current.srcObject=event.streams[0];
+        console.log(remoteVideoRef.current.srcObject);
         setRemoteStream(event.streams[0]);
       }
     return () => {
@@ -110,6 +132,7 @@ function App() {
     pc.current.onicecandidate=(event)=>{
       if(event.candidate)
       {
+        console.log("reciever ice candidate",event.candidate);
         socket.current.emit("ice-candidate",event.candidate);
       }
     }
@@ -141,6 +164,7 @@ function App() {
     pc.current.onicecandidate=(event)=>{
       if(event.candidate)
         {
+          console.log("caller ice candidate",event.candidate);
           socket.current.emit("ice-candidate",event.candidate);
         }
       }
