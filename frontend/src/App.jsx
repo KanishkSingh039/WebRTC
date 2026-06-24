@@ -20,16 +20,16 @@ function App() {
         ],}
     );
         pc.current.onconnectionstatechange = () => {
-          // console.log("Connection:", pc.current.connectionState);
+          console.log("Connection:", pc.current.connectionState);
         };
 
         pc.current.oniceconnectionstatechange = () => {
-          // console.log("ICE:", pc.current.iceConnectionState);
+          console.log("ICE:", pc.current.iceConnectionState);
         };
 
-        // pc.current.ontrack = (event) => {
-        //   console.log("Received remote track:", event.streams[0]);
-        // };
+        pc.current.ontrack = (event) => {
+          console.log("Received remote track:", event.streams[0]);
+        };
     socket.current = io("https://webrtc-56e6.onrender.com");
     socket.current.on("connect",()=>{
       console.log("Connected to signaling server");
