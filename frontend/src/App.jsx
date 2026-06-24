@@ -11,7 +11,7 @@ function App() {
   const[receivedOffer,setReceivedOffer]=useState(null);
   const[receivingCall,setReceivingCall]=useState(false);
   useEffect(() => {
-    // console.log("Setting up peer connection and socket");
+    console.log("Setting up peer connection and socket");
     pc.current = new RTCPeerConnection({
         iceServers:[
           {
@@ -27,9 +27,9 @@ function App() {
           console.log("ICE:", pc.current.iceConnectionState);
         };
 
-        pc.current.ontrack = (event) => {
-          console.log("Received remote track:", event.streams[0]);
-        };
+        // pc.current.ontrack = (event) => {
+        //   console.log("Received remote track:", event.streams[0]);
+        // };
     socket.current = io("https://webrtc-56e6.onrender.com");
     socket.current.on("connect",()=>{
       console.log("Connected to signaling server");
@@ -54,6 +54,7 @@ function App() {
         }
         else
         {
+          console.log("Adding received ice candidate",candidate);
           await pc.current.addIceCandidate(
             new RTCIceCandidate(candidate));
 
@@ -63,10 +64,10 @@ function App() {
       }
     });
     pc.current.ontrack=(event)=>{
-        // console.log("track recieved");
+        console.log("track recieved");
         
-        // console.log(event);
-        // console.log("Received remote track :", event.streams[0]);
+        console.log(event);
+        console.log("Received remote track :", event.streams[0]);
         remoteVideoRef.current.srcObject=event.streams[0];
         setRemoteStream(event.streams[0]);
       }
@@ -84,7 +85,7 @@ function App() {
     };
   },[]);
   async function handleOffer(offer){
-    // console.log("Handling answering");
+    console.log("Handling answering");
     const stream=await navigator.mediaDevices.getUserMedia(
       {
         video:true,
@@ -124,7 +125,7 @@ function App() {
   }
   async function Call()
   {
-    // console.log("Calling");
+    console.log("Calling");
     const stream=await navigator.mediaDevices.getUserMedia(
       {
         video:true,
